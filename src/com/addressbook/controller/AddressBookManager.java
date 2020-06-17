@@ -7,68 +7,100 @@ public class AddressBookManager
 {
     List<Person> personList=new ArrayList<Person>();
     Scanner Sc=new Scanner(System.in);
-
-    public void addPerson(Person person)
+    public Person getPersonList(String firstName,String lastName)
     {
-        if(person==null)
+        for(Person person : this.personList)
         {
-            person = new Person();
+            if(firstName.equalsIgnoreCase(person.getFirstName()) && lastName.equalsIgnoreCase(person.getLastName()))
+            {
+                return person;
+            }
+        }
+        return null;
+    }
+    public List<Person> getPersonList()
+    {
+        return this.personList;
+    }
+    public void addPerson(Person newPerson)
+    {
+        if(newPerson==null)
+        {
+            newPerson = new Person();
 
             System.out.println("First Name");
-            person.setFirstName(Sc.next());
+            newPerson.setFirstName(Sc.next());
 
             System.out.println("Last Name");
-            person.setLastName(Sc.next());
+            newPerson.setLastName(Sc.next());
 
             System.out.println("Address");
-            person.setAddress(Sc.next());
+            newPerson.setAddress(Sc.next());
 
             System.out.println("City");
-            person.setCity(Sc.next());
+            newPerson.setCity(Sc.next());
 
             System.out.println("State");
-            person.setState(Sc.next());
+            newPerson.setState(Sc.next());
 
             System.out.println("ZIP");
-            person.setZip(Sc.next());
+            newPerson.setZip(Sc.next());
 
             System.out.println("Phone Number");
-            person.setPhoneNumber(Sc.next());
+            newPerson.setPhoneNumber(Sc.next());
 
             System.out.println("Added Person Successfully");
         }
-        this.personList.add(person);
+        this.personList.add(newPerson);
     }
 
-    public void editPerson(Person person)
+    public void editPerson(Person editPerson)
     {
-        if(person==null)
+        System.out.println("Enter the First Name of the person to edit the details");
+        String firstName=Sc.next();
+
+        System.out.println("Enter the Last Name of the person to edit the details");
+        String lastName=Sc.next();
+
+        editPerson=this.getPersonList(firstName,lastName);
+
+        if(editPerson!=null)
         {
-            person=new Person();
-
-            System.out.println("Enter the First Name of the person to edit the details");
-            String firstName=Sc.next();
-
-            System.out.println("Enter the Last Name of the person to edit the details");
-            String lastName=Sc.next();
 
             System.out.println("Address");
-            person.setAddress(Sc.next());
+            editPerson.setAddress(Sc.next());
 
             System.out.println("City");
-            person.setCity(Sc.next());
+            editPerson.setCity(Sc.next());
 
             System.out.println("State");
-            person.setState(Sc.next());
+            editPerson.setState(Sc.next());
 
             System.out.println("ZIP");
-            person.setZip(Sc.next());
+            editPerson.setZip(Sc.next());
 
             System.out.println("Phone Number");
-            person.setPhoneNumber(Sc.next());
+            editPerson.setPhoneNumber(Sc.next());
 
             System.out.println("Person details edited Successfully");
-
+            return;
         }
+    System.out.println("ERROR : Person details doesn't exist");
+    }
+
+    public void deletePerson(Person editPerson)
+    {
+        System.out.println("First Name of person to delete : ");
+        String firstName=Sc.next();
+        System.out.println("Last Name of person to delete");
+        String lastName=Sc.next();
+        editPerson=this.getPersonList(firstName,lastName);
+        if(editPerson!=null);
+        {
+            this.personList.remove(editPerson);
+            System.out.println("Person Details Deleted Successfully");
+            return;
+        }
+        //System.out.println("ERROR : Person details doesn't exists");
     }
 }

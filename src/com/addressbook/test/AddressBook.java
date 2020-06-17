@@ -26,6 +26,11 @@ public class AddressBook {
                 addressBookManager.editPerson(null);
                 break;
 
+            case 3:
+                System.out.println("Delete Person");
+                addressBookManager.deletePerson(null);
+                break;
+
             default:
                 System.out.println("Wrong Choice");
         }

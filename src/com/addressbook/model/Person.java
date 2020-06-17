@@ -1,7 +1,10 @@
 package com.addressbook.model;
 
-public class Person
-{
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public abstract class Person implements List<Person> {
     String firstName;
     String lastName;
     String address;
@@ -88,4 +91,9 @@ public class Person
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.firstName +"  "+this.lastName+"  "+this.address+"  "+this.city+"  "+this.state+"  "+this.zip+"  "+this.phoneNumber;
+    }
 }

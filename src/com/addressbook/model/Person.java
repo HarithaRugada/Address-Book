@@ -2,14 +2,14 @@ package com.addressbook.model;
 
 public class Person
 {
-    private final String firstName;
-    private final String lastName;
+    String firstName;
+    String lastName;
     String address;
     String city;
     String state;
-    int zip;
+    String zip;
     String phoneNumber;
-    public Person(String firstName,String lastName,String address,String city,String state,int zip,String phoneNumber)
+    public Person()
     {
         this.firstName=firstName;
         this.lastName=lastName;
@@ -19,14 +19,23 @@ public class Person
         this.zip=zip;
         this.phoneNumber=phoneNumber;
     }
+
     public String getFirstName()
     {
         return this.firstName;
+    }
+    public void setFirstName(String firstName)
+    {
+        this.firstName=firstName;
     }
 
     public String getLastName()
     {
         return this.lastName;
+    }
+    public void setLastName(String lastName)
+    {
+        this.lastName=lastName;
     }
 
     public String getAddress()
@@ -59,22 +68,22 @@ public class Person
         this.state = state;
     }
 
-    public int getZip()
+    public String getZip()
     {
         return this.zip;
     }
 
-    public void setZip(int zip)
+    public void setZip(String zip)
     {
         this.zip = zip;
     }
 
-    public String getPhoneNo()
+    public String getPhoneNumber()
     {
         return this.phoneNumber;
     }
 
-    public void setPhoneNo(String phoneNumber)
+    public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
     }

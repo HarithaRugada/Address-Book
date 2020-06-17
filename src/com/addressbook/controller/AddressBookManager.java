@@ -39,4 +39,36 @@ public class AddressBookManager
         }
         this.personList.add(person);
     }
+
+    public void editPerson(Person person)
+    {
+        if(person==null)
+        {
+            person=new Person();
+
+            System.out.println("Enter the First Name of the person to edit the details");
+            String firstName=Sc.next();
+
+            System.out.println("Enter the Last Name of the person to edit the details");
+            String lastName=Sc.next();
+
+            System.out.println("Address");
+            person.setAddress(Sc.next());
+
+            System.out.println("City");
+            person.setCity(Sc.next());
+
+            System.out.println("State");
+            person.setState(Sc.next());
+
+            System.out.println("ZIP");
+            person.setZip(Sc.next());
+
+            System.out.println("Phone Number");
+            person.setPhoneNumber(Sc.next());
+
+            System.out.println("Person details edited Successfully");
+
+        }
+    }
 }

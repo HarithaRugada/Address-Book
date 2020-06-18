@@ -6,6 +6,9 @@ import java.util.*;
 public class AddressBookManager
 {
     LinkedList<Person> personList=new LinkedList<Person>();
+    HashMap<String,Person>cityMap=new HashMap<>();
+    HashMap<String,Person>stateMap=new HashMap<>();
+
     Scanner Sc=new Scanner(System.in);
     public Person getPersonList(String firstName,String lastName)
     {
@@ -37,7 +40,7 @@ public class AddressBookManager
         //{
         Person newPerson = new Person() {
             @Override
-            public int compareTo(Person person) {
+            public int compareTo(Person o) {
                 return 0;
             }
         };
@@ -63,9 +66,7 @@ public class AddressBookManager
             System.out.println("Phone Number");
             newPerson.setPhoneNumber(Sc.next());
 
-        String firstName = "";
-        String lastName="";
-        Person duplicate=getPersonList(firstName,lastName);
+        Person duplicate=getPersonList(newPerson.getFirstName(),newPerson.getLastName());
 
             if(newPerson.equals(duplicate))
                 {
@@ -78,6 +79,8 @@ public class AddressBookManager
                 }
         //}
         personList.add(newPerson);
+        cityMap.put(newPerson.getCity(),newPerson);
+        stateMap.put(newPerson.getState(),newPerson);
     }
 
     public void editPerson(Person editPerson)
@@ -150,4 +153,17 @@ public class AddressBookManager
         this.personList.sort(Comparator.comparing(e->e.getZip().toLowerCase()));
     }
 
+    public void viewPersonByCity()
+    {
+        System.out.println("Enter city to get the persons list");
+        String city=Sc.nextLine();
+        System.out.println(cityMap.get(city));
+    }
+
+    public void viewPersonByState()
+    {
+        System.out.println("Enter State to get the persons list");
+        String state=Sc.nextLine();
+        System.out.println(stateMap.get(state));
+    }
 }

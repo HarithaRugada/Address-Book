@@ -1,10 +1,6 @@
 package com.addressbook.model;
 
-import java.util.*;
-import java.lang.*;
-import java.io.*;
-
-public abstract class Person implements List<Person> {
+public class Person{
     String firstName;
     String lastName;
     String address;

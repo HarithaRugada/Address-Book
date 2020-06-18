@@ -12,10 +12,10 @@ public class AddressBook {
 
         System.out.println("Welcome to Address Book Program");
         Scanner Sc=new Scanner(System.in);
-        System.out.println("Add Person");
-        System.out.println("Edit Person");
-        System.out.println("Delete Person");
-        System.out.println("Exit");
+        System.out.println("1.Add Person");
+        System.out.println("2.Edit Person");
+        System.out.println("3.Delete Person");
+        System.out.println("4.Exit");
         while(true)
         {
             System.out.println("Enter your choice");
@@ -23,7 +23,7 @@ public class AddressBook {
             switch (choice)
             {
                     case 1:
-                        addressBookManager.addPerson(null);
+                        addressBookManager.addPerson();
                         break;
 
                     case 2:

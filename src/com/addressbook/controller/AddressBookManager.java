@@ -5,7 +5,7 @@ import java.util.*;
 
 public class AddressBookManager
 {
-    List<Person> personList=new ArrayList<Person>();
+    LinkedList<Person> personList=new LinkedList<Person>();
     Scanner Sc=new Scanner(System.in);
     public Person getPersonList(String firstName,String lastName)
     {
@@ -18,15 +18,24 @@ public class AddressBookManager
         }
         return null;
     }
-    public List<Person> getPersonList()
+    public LinkedList<Person> getPersonList()
     {
         return this.personList;
     }
-    public void addPerson(Person newPerson)
+    public void printAddressBookList()
     {
-        if(newPerson==null)
+        System.out.println("############################");
+        for(Person person:this.personList)
         {
-            newPerson = new Person();
+            System.out.println(person.toString());
+        }
+        return;
+  }
+    public void addPerson()
+    {
+        //if(newPerson==null)
+        //{
+        Person newPerson = new Person();
 
             System.out.println("First Name");
             newPerson.setFirstName(Sc.next());
@@ -49,9 +58,21 @@ public class AddressBookManager
             System.out.println("Phone Number");
             newPerson.setPhoneNumber(Sc.next());
 
-            System.out.println("Added Person Successfully");
-        }
-        this.personList.add(newPerson);
+        //String firstName = "";
+        //String lastName="";
+        Person duplicate=getPersonList(firstName,lastName);
+
+            if(newPerson.equals(duplicate))
+                {
+                    System.out.println("Already exists");
+                    return;
+                }
+            else
+                {
+                    System.out.println("Added Person Successfully");
+                }
+        //}
+        personList.add(newPerson);
     }
 
     public void editPerson(Person editPerson)

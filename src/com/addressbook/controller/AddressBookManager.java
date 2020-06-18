@@ -35,9 +35,14 @@ public class AddressBookManager
     {
         //if(newPerson==null)
         //{
-        Person newPerson = new Person();
+        Person newPerson = new Person() {
+            @Override
+            public int compareTo(Person person) {
+                return 0;
+            }
+        };
 
-            System.out.println("First Name");
+        System.out.println("First Name");
             newPerson.setFirstName(Sc.next());
 
             System.out.println("Last Name");
@@ -58,8 +63,8 @@ public class AddressBookManager
             System.out.println("Phone Number");
             newPerson.setPhoneNumber(Sc.next());
 
-        //String firstName = "";
-        //String lastName="";
+        String firstName = "";
+        String lastName="";
         Person duplicate=getPersonList(firstName,lastName);
 
             if(newPerson.equals(duplicate))
@@ -123,5 +128,10 @@ public class AddressBookManager
             return;
         }
         //System.out.println("ERROR : Person details doesn't exists");
+    }
+
+    public void sortByFirstName()
+    {
+        this.personList.sort(Comparator.comparing(e->e.getFirstName().toLowerCase()));
     }
 }

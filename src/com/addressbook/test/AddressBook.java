@@ -2,6 +2,7 @@ package com.addressbook.test;
 
 import com.addressbook.controller.AddressBookManager;
 
+import java.awt.*;
 import java.util.*;
 
 public class AddressBook {
@@ -15,7 +16,8 @@ public class AddressBook {
         System.out.println("1.Add Person");
         System.out.println("2.Edit Person");
         System.out.println("3.Delete Person");
-        System.out.println("4.Exit");
+        System.out.println("4.Sort by First Name");
+        System.out.println("5.Exit");
         while(true)
         {
             System.out.println("Enter your choice");
@@ -35,6 +37,8 @@ public class AddressBook {
                         break;
 
                     case 4:
+                        addressBookManager.sortByFirstName();
+                    case 5:
                         System.exit(0);
 
                     default:

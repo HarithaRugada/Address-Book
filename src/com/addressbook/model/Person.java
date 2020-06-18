@@ -1,6 +1,8 @@
 package com.addressbook.model;
 
-public class Person{
+import java.io.Serializable;
+
+public abstract class Person implements Comparable<Person>, Serializable {
     String firstName;
     String lastName;
     String address;
@@ -90,6 +92,6 @@ public class Person{
     @Override
     public String toString()
     {
-        return this.firstName +"  "+this.lastName+"  "+this.address+"  "+this.city+"  "+this.state+"  "+this.zip+"  "+this.phoneNumber;
+        return this.firstName +" "+this.lastName+" "+this.address+"  "+this.city+" "+this.state+" "+this.zip+" "+this.phoneNumber;
     }
 }

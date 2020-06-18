@@ -17,7 +17,10 @@ public class AddressBook {
         System.out.println("2.Edit Person");
         System.out.println("3.Delete Person");
         System.out.println("4.Sort by First Name");
-        System.out.println("5.Exit");
+        System.out.println("5.Sort by City");
+        System.out.println("6.Sort By State");
+        System.out.println("7.Sort By Zip");
+        System.out.println("8.Exit");
         while(true)
         {
             System.out.println("Enter your choice");
@@ -38,7 +41,21 @@ public class AddressBook {
 
                     case 4:
                         addressBookManager.sortByFirstName();
+                        break;
+
                     case 5:
+                        addressBookManager.sortByCity();
+                        break;
+
+                    case 6:
+                        addressBookManager.sortByState();
+                        break;
+
+                    case 7:
+                        addressBookManager.sortByZip();
+                        break;
+
+                    case 8:
                         System.exit(0);
 
                     default:

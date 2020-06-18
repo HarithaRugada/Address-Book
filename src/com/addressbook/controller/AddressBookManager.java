@@ -134,4 +134,20 @@ public class AddressBookManager
     {
         this.personList.sort(Comparator.comparing(e->e.getFirstName().toLowerCase()));
     }
+
+    public void sortByCity()
+    {
+        this.personList.sort(Comparator.comparing(e->e.getCity().toLowerCase()));
+    }
+
+    public void sortByState()
+    {
+        this.personList.sort(Comparator.comparing(e->e.getState().toLowerCase()));
+    }
+
+    public void sortByZip()
+    {
+        this.personList.sort(Comparator.comparing(e->e.getZip().toLowerCase()));
+    }
+
 }

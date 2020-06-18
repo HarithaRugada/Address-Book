@@ -22,7 +22,8 @@ public class AddressBook {
         System.out.println("7.Sort By Zip");
         System.out.println("8.View By City");
         System.out.println("9.View By State");
-        System.out.println("10.Exit");
+        System.out.println("10.Search Person");
+        System.out.println("11.Exit");
         while(true)
         {
             System.out.println("Enter your choice");
@@ -66,6 +67,10 @@ public class AddressBook {
                         break;
 
                     case 10:
+                        addressBookManager.viewPersonDetails();
+                        break;
+
+                    case 11:
                         System.exit(0);
 
                     default:

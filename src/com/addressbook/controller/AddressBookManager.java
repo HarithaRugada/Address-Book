@@ -8,6 +8,7 @@ public class AddressBookManager
     LinkedList<Person> personList=new LinkedList<Person>();
     HashMap<String,Person>cityMap=new HashMap<>();
     HashMap<String,Person>stateMap=new HashMap<>();
+    HashMap<String,Person>firstNameMap=new HashMap<>();
 
     Scanner Sc=new Scanner(System.in);
     public Person getPersonList(String firstName,String lastName)
@@ -81,6 +82,7 @@ public class AddressBookManager
         personList.add(newPerson);
         cityMap.put(newPerson.getCity(),newPerson);
         stateMap.put(newPerson.getState(),newPerson);
+        firstNameMap.put(newPerson.getFirstName(),newPerson);
     }
 
     public void editPerson(Person editPerson)
@@ -165,5 +167,12 @@ public class AddressBookManager
         System.out.println("Enter State to get the persons list");
         String state=Sc.nextLine();
         System.out.println(stateMap.get(state));
+    }
+
+    public void viewPersonDetails()
+    {
+     System.out.println("Enter Person Name");
+     String firstName=Sc.nextLine();
+     System.out.println(firstNameMap.get(firstName));
     }
 }

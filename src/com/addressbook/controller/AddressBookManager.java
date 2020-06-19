@@ -1,6 +1,8 @@
 package com.addressbook.controller;
 
 import com.addressbook.model.*;
+
+import javax.swing.*;
 import java.util.*;
 
 public class AddressBookManager
@@ -41,7 +43,7 @@ public class AddressBookManager
         //{
         Person newPerson = new Person() {
             @Override
-            public int compareTo(Person o) {
+            public int compareTo(Person person) {
                 return 0;
             }
         };
@@ -85,7 +87,7 @@ public class AddressBookManager
         firstNameMap.put(newPerson.getFirstName(),newPerson);
     }
 
-    public void editPerson(Person editPerson)
+    public void editPerson()
     {
         System.out.println("Enter the First Name of the person to edit the details");
         String firstName=Sc.next();
@@ -93,7 +95,7 @@ public class AddressBookManager
         System.out.println("Enter the Last Name of the person to edit the details");
         String lastName=Sc.next();
 
-        editPerson=this.getPersonList(firstName,lastName);
+        Person editPerson=this.getPersonList(firstName,lastName);
 
         if(editPerson!=null)
         {
@@ -119,20 +121,19 @@ public class AddressBookManager
     System.out.println("ERROR : Person details doesn't exist");
     }
 
-    public void deletePerson(Person editPerson)
+    public void deletePerson()
     {
         System.out.println("First Name of person to delete : ");
         String firstName=Sc.next();
         System.out.println("Last Name of person to delete");
         String lastName=Sc.next();
-        editPerson=this.getPersonList(firstName,lastName);
+        Person editPerson=this.getPersonList(firstName,lastName);
         if(editPerson!=null);
         {
             this.personList.remove(editPerson);
             System.out.println("Person Details Deleted Successfully");
             return;
         }
-        //System.out.println("ERROR : Person details doesn't exists");
     }
 
     public void sortByFirstName()
@@ -152,7 +153,7 @@ public class AddressBookManager
 
     public void sortByZip()
     {
-        this.personList.sort(Comparator.comparing(e->e.getZip().toLowerCase()));
+        this.personList.sort(Comparator.comparing(Person:: getZip));
     }
 
     public void viewPersonByCity()

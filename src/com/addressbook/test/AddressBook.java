@@ -23,7 +23,8 @@ public class AddressBook {
         System.out.println("8.View By City");
         System.out.println("9.View By State");
         System.out.println("10.Search Person");
-        System.out.println("11.Exit");
+        System.out.println("11.Print the Address Book");
+        System.out.println("12.Exit");
         while(true)
         {
             System.out.println("Enter your choice");
@@ -35,11 +36,11 @@ public class AddressBook {
                         break;
 
                     case 2:
-                        addressBookManager.editPerson(null);
+                        addressBookManager.editPerson();
                         break;
 
                     case 3:
-                        addressBookManager.deletePerson(null);
+                        addressBookManager.deletePerson();
                         break;
 
                     case 4:
@@ -71,6 +72,10 @@ public class AddressBook {
                         break;
 
                     case 11:
+                        addressBookManager.printAddressBookList();
+                        break;
+
+                    case 12:
                         System.exit(0);
 
                     default:

@@ -1,8 +1,7 @@
-package com.addressbook.test;
+package com.addressbook.main;
 
 import com.addressbook.controller.AddressBookManager;
 
-import java.awt.*;
 import java.util.*;
 
 public class AddressBook {
@@ -44,38 +43,26 @@ public class AddressBook {
                         break;
 
                     case 4:
-                        addressBookManager.sortByFirstName();
+                        addressBookManager.sort();
                         break;
 
                     case 5:
-                        addressBookManager.sortByCity();
-                        break;
-
-                    case 6:
-                        addressBookManager.sortByState();
-                        break;
-
-                    case 7:
-                        addressBookManager.sortByZip();
-                        break;
-
-                    case 8:
                         addressBookManager.viewPersonByCity();
                         break;
 
-                    case 9:
+                    case 6:
                         addressBookManager.viewPersonByState();
                         break;
 
-                    case 10:
+                    case 7:
                         addressBookManager.viewPersonDetails();
                         break;
 
-                    case 11:
+                    case 8:
                         addressBookManager.printAddressBookList();
                         break;
 
-                    case 12:
+                    case 9:
                         System.exit(0);
 
                     default:

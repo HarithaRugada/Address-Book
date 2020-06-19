@@ -2,7 +2,6 @@ package com.addressbook.controller;
 
 import com.addressbook.model.*;
 
-import javax.swing.*;
 import java.util.*;
 
 public class AddressBookManager
@@ -12,22 +11,19 @@ public class AddressBookManager
     HashMap<String,Person>stateMap=new HashMap<>();
     HashMap<String,Person>firstNameMap=new HashMap<>();
 
-    Scanner Sc=new Scanner(System.in);
-    public Person getPersonList(String firstName,String lastName)
+    Scanner scanner =new Scanner(System.in);
+    public Person getPersonList(String phoneNumber)
     {
         for(Person person : this.personList)
         {
-            if(firstName.equalsIgnoreCase(person.getFirstName()) && lastName.equalsIgnoreCase(person.getLastName()))
+            if(phoneNumber.equals(person.getPhoneNumber()))
             {
                 return person;
             }
         }
         return null;
     }
-    public LinkedList<Person> getPersonList()
-    {
-        return this.personList;
-    }
+
     public void printAddressBookList()
     {
         System.out.println("############################");
@@ -36,50 +32,45 @@ public class AddressBookManager
             System.out.println(person.toString());
         }
         return;
-  }
+    }
     public void addPerson()
     {
         //if(newPerson==null)
         //{
-        Person newPerson = new Person() {
-            @Override
-            public int compareTo(Person person) {
-                return 0;
-            }
-        };
+        Person newPerson = new Person();
 
         System.out.println("First Name");
-            newPerson.setFirstName(Sc.next());
+        newPerson.setFirstName(scanner.next());
 
-            System.out.println("Last Name");
-            newPerson.setLastName(Sc.next());
+        System.out.println("Last Name");
+        newPerson.setLastName(scanner.next());
 
-            System.out.println("Address");
-            newPerson.setAddress(Sc.next());
+        System.out.println("Address");
+        newPerson.setAddress(scanner.next());
 
-            System.out.println("City");
-            newPerson.setCity(Sc.next());
+        System.out.println("City");
+        newPerson.setCity(scanner.next());
 
-            System.out.println("State");
-            newPerson.setState(Sc.next());
+        System.out.println("State");
+        newPerson.setState(scanner.next());
 
-            System.out.println("ZIP");
-            newPerson.setZip(Sc.next());
+        System.out.println("ZIP");
+        newPerson.setZip(scanner.next());
 
-            System.out.println("Phone Number");
-            newPerson.setPhoneNumber(Sc.next());
+        System.out.println("Phone Number");
+        newPerson.setPhoneNumber(scanner.next());
 
-        Person duplicate=getPersonList(newPerson.getFirstName(),newPerson.getLastName());
+        Person duplicate=getPersonList(newPerson.getPhoneNumber());
 
-            if(newPerson.equals(duplicate))
-                {
-                    System.out.println("Already exists");
-                    return;
-                }
-            else
-                {
-                    System.out.println("Added Person Successfully");
-                }
+        if(newPerson.equals(duplicate))
+        {
+            System.out.println("Already exists");
+            return;
+        }
+        else
+        {
+            System.out.println("Added Person Successfully");
+        }
         //}
         personList.add(newPerson);
         cityMap.put(newPerson.getCity(),newPerson);
@@ -89,91 +80,132 @@ public class AddressBookManager
 
     public void editPerson()
     {
-        System.out.println("Enter the First Name of the person to edit the details");
-        String firstName=Sc.next();
+        System.out.println("Enter the Phone Number of the person to edit the details");
+        String phoneNumber= scanner.next();
 
-        System.out.println("Enter the Last Name of the person to edit the details");
-        String lastName=Sc.next();
-
-        Person editPerson=this.getPersonList(firstName,lastName);
+        Person editPerson=this.getPersonList(phoneNumber);
 
         if(editPerson!=null)
         {
 
             System.out.println("Address");
-            editPerson.setAddress(Sc.next());
+            editPerson.setAddress(scanner.next());
 
             System.out.println("City");
-            editPerson.setCity(Sc.next());
+            editPerson.setCity(scanner.next());
 
             System.out.println("State");
-            editPerson.setState(Sc.next());
+            editPerson.setState(scanner.next());
 
             System.out.println("ZIP");
-            editPerson.setZip(Sc.next());
-
-            System.out.println("Phone Number");
-            editPerson.setPhoneNumber(Sc.next());
+            editPerson.setZip(scanner.next());
 
             System.out.println("Person details edited Successfully");
             return;
         }
-    System.out.println("ERROR : Person details doesn't exist");
+        System.out.println("ERROR : Person details doesn't exist");
     }
 
     public void deletePerson()
     {
-        System.out.println("First Name of person to delete : ");
-        String firstName=Sc.next();
-        System.out.println("Last Name of person to delete");
-        String lastName=Sc.next();
-        Person editPerson=this.getPersonList(firstName,lastName);
-        if(editPerson!=null);
+        System.out.println("Phone Number of person to delete : ");
+        String phoneNumber= scanner.next();
+
+        Person editPerson=this.getPersonList(phoneNumber);
+        if(editPerson!=null)
         {
             this.personList.remove(editPerson);
             System.out.println("Person Details Deleted Successfully");
             return;
         }
+        System.out.println("ERROR : Person details doesn't exists");
     }
 
-    public void sortByFirstName()
+    public void sort()
     {
-        this.personList.sort(Comparator.comparing(e->e.getFirstName().toLowerCase()));
+        System.out.println("\n 1.First Name\n 2.City\n 3.State\n 4.ZIP\n 5.Exit");
+        while(true)
+        {
+            System.out.println("Choose any one option");
+            int choice=scanner.nextInt();
+            switch(choice)
+            {
+                case 1:
+                    Collections.sort(personList,new sortByFirstName());
+                    break;
+
+                case 2:
+                    Collections.sort(personList,new sortByCity());
+                    break;
+
+                case 3:
+                    Collections.sort(personList,new sortByState());
+                    break;
+
+                case 4:
+                    Collections.sort(personList,new sortByZIP());
+                    break;
+
+                case 5:
+                    System.exit(0);
+
+                default:
+                    System.out.println("Wrong Choice");
+
+            }
+        }
     }
 
-    public void sortByCity()
+    class sortByFirstName implements Comparator<Person>
     {
-        this.personList.sort(Comparator.comparing(e->e.getCity().toLowerCase()));
+        public int compare(Person person1,Person person2)
+        {
+            return person1.getFirstName().compareTo(person2.getFirstName());
+        }
     }
 
-    public void sortByState()
+    class sortByCity implements Comparator<Person>
     {
-        this.personList.sort(Comparator.comparing(e->e.getState().toLowerCase()));
+        public int compare(Person person1,Person person2)
+        {
+            return person1.getCity().compareTo(person2.getCity());
+        }
     }
 
-    public void sortByZip()
+    class sortByState implements Comparator<Person>
     {
-        this.personList.sort(Comparator.comparing(Person:: getZip));
+        public int compare(Person person1,Person person2)
+        {
+            return person1.getState().compareTo(person2.getState());
+        }
+    }
+
+    class sortByZIP implements Comparator<Person>
+    {
+        public int compare(Person person1,Person person2)
+        {
+            return person1.getZip().compareTo(person2.getZip());
+        }
     }
 
     public void viewPersonByCity()
     {
         System.out.println("Enter city to get the persons list");
-        String city=Sc.nextLine();
+        String city= scanner.nextLine();
         System.out.println(cityMap.get(city));
     }
 
     public void viewPersonByState()
     {
         System.out.println("Enter State to get the persons list");
-        String state=Sc.nextLine();
+        String state= scanner.nextLine();
         System.out.println(stateMap.get(state));
     }
 
     public void viewPersonDetails()
     {
-     System.out.println("Enter Person Name");
-     String firstName=Sc.nextLine();
-     System.out.println(firstNameMap.get(firstName));
+        System.out.println("Enter Person Name");
+        String firstName= scanner.nextLine();
+        System.out.println(firstNameMap.get(firstName));
     }
 }

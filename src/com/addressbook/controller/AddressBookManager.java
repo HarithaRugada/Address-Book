@@ -3,6 +3,7 @@ package com.addressbook.controller;
 import com.addressbook.model.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AddressBookManager
 {
@@ -35,8 +36,6 @@ public class AddressBookManager
     }
     public void addPerson()
     {
-        //if(newPerson==null)
-        //{
         Person newPerson = new Person();
 
         System.out.println("First Name");
@@ -69,13 +68,13 @@ public class AddressBookManager
         }
         else
         {
+            personList.add(newPerson);
+            cityMap.put(newPerson.getCity(),newPerson);
+            stateMap.put(newPerson.getState(),newPerson);
+            firstNameMap.put(newPerson.getFirstName(),newPerson);
             System.out.println("Added Person Successfully");
         }
-        //}
-        personList.add(newPerson);
-        cityMap.put(newPerson.getCity(),newPerson);
-        stateMap.put(newPerson.getState(),newPerson);
-        firstNameMap.put(newPerson.getFirstName(),newPerson);
+
     }
 
     public void editPerson()
@@ -123,7 +122,7 @@ public class AddressBookManager
 
     public void sort()
     {
-        System.out.println("\n 1.First Name\n 2.City\n 3.State\n 4.ZIP\n 5.Exit");
+        System.out.println("SORT\n 1.First Name\n 2.City\n 3.State\n 4.ZIP\n 5.Exit");
         while(true)
         {
             System.out.println("Choose any one option");
@@ -147,6 +146,34 @@ public class AddressBookManager
                     break;
 
                 case 5:
+                    System.exit(0);
+
+                default:
+                    System.out.println("Wrong Choice");
+
+            }
+        }
+    }
+
+    public void view() {
+        System.out.println("VIEW \n 1.First Name\n 2.City\n 3.State\n 4.Exit");
+        while (true) {
+            System.out.println("Choose any one option");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    viewPersonDetails();
+                    break;
+
+                case 2:
+                    viewPersonByCity();
+                    break;
+
+                case 3:
+                    viewPersonByState();
+                    break;
+
+                case 4:
                     System.exit(0);
 
                 default:
@@ -191,7 +218,7 @@ public class AddressBookManager
     public void viewPersonByCity()
     {
         System.out.println("Enter city to get the persons list");
-        String city= scanner.nextLine();
+        String city = scanner.nextLine();
         System.out.println(cityMap.get(city));
     }
 

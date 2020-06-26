@@ -1,41 +1,36 @@
 package com.addressbook.controller;
 
-import com.addressbook.model.*;
+import com.addressbook.model.Person;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
-public class AddressBookManager
-{
-    LinkedList<Person> personList=new LinkedList<Person>();
-    HashMap<String,Person>cityMap=new HashMap<>();
-    HashMap<String,Person>stateMap=new HashMap<>();
-    HashMap<String,Person>firstNameMap=new HashMap<>();
 
-    Scanner scanner =new Scanner(System.in);
-    public Person getPersonList(String phoneNumber)
-    {
-        for(Person person : this.personList)
-        {
-            if(phoneNumber.equals(person.getPhoneNumber()))
-            {
+public class AddressBookManager {
+    LinkedList<Person> personList = new LinkedList<Person>();
+    HashMap<String, Person> cityMap = new HashMap<>();
+    HashMap<String, Person> stateMap = new HashMap<>();
+    HashMap<String, Person> firstNameMap = new HashMap<>();
+
+    Scanner scanner = new Scanner(System.in);
+
+    public Person getPersonList(String phoneNumber) {
+        for (Person person : this.personList) {
+            if (phoneNumber.equals(person.getPhoneNumber())) {
                 return person;
             }
         }
         return null;
     }
 
-    public void printAddressBookList()
-    {
+    public void printAddressBookList() {
         System.out.println("############################");
-        for(Person person:this.personList)
-        {
+        for (Person person : this.personList) {
             System.out.println(person.toString());
         }
         return;
     }
-    public void addPerson()
-    {
+
+    public void addPerson() {
         Person newPerson = new Person();
 
         System.out.println("First Name");
@@ -59,33 +54,28 @@ public class AddressBookManager
         System.out.println("Phone Number");
         newPerson.setPhoneNumber(scanner.next());
 
-        Person duplicate=getPersonList(newPerson.getPhoneNumber());
+        Person duplicate = getPersonList(newPerson.getPhoneNumber());
 
-        if(newPerson.equals(duplicate))
-        {
+        if (newPerson.equals(duplicate)) {
             System.out.println("Already exists");
             return;
-        }
-        else
-        {
+        } else {
             personList.add(newPerson);
-            cityMap.put(newPerson.getCity(),newPerson);
-            stateMap.put(newPerson.getState(),newPerson);
-            firstNameMap.put(newPerson.getFirstName(),newPerson);
+            cityMap.put(newPerson.getCity(), newPerson);
+            stateMap.put(newPerson.getState(), newPerson);
+            firstNameMap.put(newPerson.getFirstName(), newPerson);
             System.out.println("Added Person Successfully");
         }
 
     }
 
-    public void editPerson()
-    {
+    public void editPerson() {
         System.out.println("Enter the Phone Number of the person to edit the details");
-        String phoneNumber= scanner.next();
+        String phoneNumber = scanner.next();
 
-        Person editPerson=this.getPersonList(phoneNumber);
+        Person editPerson = this.getPersonList(phoneNumber);
 
-        if(editPerson!=null)
-        {
+        if (editPerson != null) {
 
             System.out.println("Address");
             editPerson.setAddress(scanner.next());
@@ -105,14 +95,12 @@ public class AddressBookManager
         System.out.println("ERROR : Person details doesn't exist");
     }
 
-    public void deletePerson()
-    {
+    public void deletePerson() {
         System.out.println("Phone Number of person to delete : ");
-        String phoneNumber= scanner.next();
+        String phoneNumber = scanner.next();
 
-        Person editPerson=this.getPersonList(phoneNumber);
-        if(editPerson!=null)
-        {
+        Person editPerson = this.getPersonList(phoneNumber);
+        if (editPerson != null) {
             this.personList.remove(editPerson);
             System.out.println("Person Details Deleted Successfully");
             return;
@@ -120,29 +108,26 @@ public class AddressBookManager
         System.out.println("ERROR : Person details doesn't exists");
     }
 
-    public void sort()
-    {
+    public void sort() {
         System.out.println("SORT\n 1.First Name\n 2.City\n 3.State\n 4.ZIP\n 5.Exit");
-        while(true)
-        {
+        while (true) {
             System.out.println("Choose any one option");
-            int choice=scanner.nextInt();
-            switch(choice)
-            {
+            int choice = scanner.nextInt();
+            switch (choice) {
                 case 1:
-                    Collections.sort(personList,new sortByFirstName());
+                    Collections.sort(personList, new sortByFirstName());
                     break;
 
                 case 2:
-                    Collections.sort(personList,new sortByCity());
+                    Collections.sort(personList, new sortByCity());
                     break;
 
                 case 3:
-                    Collections.sort(personList,new sortByState());
+                    Collections.sort(personList, new sortByState());
                     break;
 
                 case 4:
-                    Collections.sort(personList,new sortByZIP());
+                    Collections.sort(personList, new sortByZIP());
                     break;
 
                 case 5:
@@ -183,56 +168,45 @@ public class AddressBookManager
         }
     }
 
-    class sortByFirstName implements Comparator<Person>
-    {
-        public int compare(Person person1,Person person2)
-        {
+    class sortByFirstName implements Comparator<Person> {
+        public int compare(Person person1, Person person2) {
             return person1.getFirstName().compareTo(person2.getFirstName());
         }
     }
 
-    class sortByCity implements Comparator<Person>
-    {
-        public int compare(Person person1,Person person2)
-        {
+    class sortByCity implements Comparator<Person> {
+        public int compare(Person person1, Person person2) {
             return person1.getCity().compareTo(person2.getCity());
         }
     }
 
-    class sortByState implements Comparator<Person>
-    {
-        public int compare(Person person1,Person person2)
-        {
+    class sortByState implements Comparator<Person> {
+        public int compare(Person person1, Person person2) {
             return person1.getState().compareTo(person2.getState());
         }
     }
 
-    class sortByZIP implements Comparator<Person>
-    {
-        public int compare(Person person1,Person person2)
-        {
+    class sortByZIP implements Comparator<Person> {
+        public int compare(Person person1, Person person2) {
             return person1.getZip().compareTo(person2.getZip());
         }
     }
 
-    public void viewPersonByCity()
-    {
+    public void viewPersonByCity() {
         System.out.println("Enter city to get the persons list");
         String city = scanner.nextLine();
         System.out.println(cityMap.get(city));
     }
 
-    public void viewPersonByState()
-    {
+    public void viewPersonByState() {
         System.out.println("Enter State to get the persons list");
-        String state= scanner.nextLine();
+        String state = scanner.nextLine();
         System.out.println(stateMap.get(state));
     }
 
-    public void viewPersonDetails()
-    {
+    public void viewPersonDetails() {
         System.out.println("Enter Person Name");
-        String firstName= scanner.nextLine();
+        String firstName = scanner.nextLine();
         System.out.println(firstNameMap.get(firstName));
     }
 }

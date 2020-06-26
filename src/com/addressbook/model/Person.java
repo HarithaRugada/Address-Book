@@ -1,97 +1,82 @@
 package com.addressbook.model;
 
-import java.io.Serializable;
+public class Person {
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String city;
+    private String state;
+    private String zip;
+    private String phoneNumber;
 
-public class Person{
-    String firstName;
-    String lastName;
-    String address;
-    String city;
-    String state;
-    String zip;
-    String phoneNumber;
-    public Person()
-    {
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.address=address;
-        this.city=city;
-        this.state=state;
-        this.zip=zip;
-        this.phoneNumber=phoneNumber;
+    public Person() {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return this.firstName;
     }
-    public void setFirstName(String firstName)
-    {
-        this.firstName=firstName;
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return this.lastName;
     }
-    public void setLastName(String lastName)
-    {
-        this.lastName=lastName;
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return this.address;
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         return this.city;
     }
 
-    public void setCity(String city)
-    {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public String getState()
-    {
+    public String getState() {
         return this.state;
     }
 
-    public void setState(String state)
-    {
+    public void setState(String state) {
         this.state = state;
     }
 
-    public String getZip()
-    {
+    public String getZip() {
         return this.zip;
     }
 
-    public void setZip(String zip)
-    {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public String getPhoneNumber()
-    {
+    public String getPhoneNumber() {
         return this.phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber)
-    {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
     @Override
-    public String toString()
-    {
-        return this.firstName +"  "+this.lastName+"  "+this.address+"  "+this.city+"  "+this.state+"  "+this.zip+"  "+this.phoneNumber;
+    public String toString() {
+        return this.firstName + "  " + this.lastName + "  " + this.address + "  " + this.city + "  " + this.state + "  " + this.zip + "  " + this.phoneNumber;
     }
 }

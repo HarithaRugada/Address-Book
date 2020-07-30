@@ -7,17 +7,7 @@ public class Person {
     private String city;
     private String state;
     private String zip;
-    private String phoneNumber;
-
-    public Person() {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.phoneNumber = phoneNumber;
-    }
+    private String phoneNo;
 
     public String getFirstName() {
         return this.firstName;
@@ -36,7 +26,7 @@ public class Person {
     }
 
     public String getAddress() {
-        return this.address;
+        return address;
     }
 
     public void setAddress(String address) {
@@ -44,7 +34,7 @@ public class Person {
     }
 
     public String getCity() {
-        return this.city;
+        return city;
     }
 
     public void setCity(String city) {
@@ -52,7 +42,7 @@ public class Person {
     }
 
     public String getState() {
-        return this.state;
+        return state;
     }
 
     public void setState(String state) {
@@ -60,7 +50,7 @@ public class Person {
     }
 
     public String getZip() {
-        return this.zip;
+        return zip;
     }
 
     public void setZip(String zip) {
@@ -68,15 +58,10 @@ public class Person {
     }
 
     public String getPhoneNumber() {
-        return this.phoneNumber;
+        return phoneNo;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return this.firstName + "  " + this.lastName + "  " + this.address + "  " + this.city + "  " + this.state + "  " + this.zip + "  " + this.phoneNumber;
+    public void setPhoneNumber(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 }

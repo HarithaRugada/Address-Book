@@ -1,56 +1,36 @@
 package com.addressbook.main;
 
-import com.addressbook.controller.AddressBookManager;
+import com.addressbook.service.AddressBookManager;
 
-import java.util.*;
+import java.util.Scanner;
 
 public class AddressBook {
+
     public static void main(String[] args) {
-        AddressBook addressBook = new AddressBook();
+        System.out.println("Welcome To Address Book Program");
+        Scanner Scanner = new Scanner(System.in);
         AddressBookManager addressBookManager = new AddressBookManager();
-
-        System.out.println("Welcome to Address Book Program");
-        Scanner Sc = new Scanner(System.in);
-        System.out.println("1.Add Person");
-        System.out.println("2.Edit Person");
-        System.out.println("3.Delete Person");
-        System.out.println("4.Sort");
-        System.out.println("5.View");
-        System.out.println("6.Print the Address Book");
-        System.out.println("7.Exit");
         while (true) {
-            System.out.println("Enter your choice");
-            int choice = Sc.nextInt();
+            System.out.println("1) add a person");
+            System.out.println("2) edit person");
+            System.out.println("3) delete a person");
+            System.out.println("4) sort AddressBook");
+            System.out.println("5) view for person by city and state");
+            System.out.println("6) search for person in city or state");
+            System.out.println("7) print address book");
+            System.out.println("8) exit");
+            System.out.println("Choose one option");
+            int choice = Scanner.nextInt();
             switch (choice) {
-                case 1:
-                    addressBookManager.addPerson();
-                    break;
-
-                case 2:
-                    addressBookManager.editPerson();
-                    break;
-
-                case 3:
-                    addressBookManager.deletePerson();
-                    break;
-
-                case 4:
-                    addressBookManager.sort();
-                    break;
-
-                case 5:
-                    addressBookManager.view();
-                    break;
-
-                case 6:
-                    addressBookManager.printAddressBookList();
-                    break;
-
-                case 7:
-                    System.exit(0);
-
-                default:
-                    System.out.println("Wrong Choice");
+                case 1 -> addressBookManager.addPerson();
+                case 2 -> addressBookManager.editPerson();
+                case 3 -> addressBookManager.deletePerson();
+                case 4 -> addressBookManager.sorting();
+                case 5 -> addressBookManager.viewByCityAndState();
+                case 6 -> addressBookManager.searchByCityOrState();
+                case 7 -> addressBookManager.personList.forEach(AddressBookManager::printEachRecord);
+                case 8 -> System.exit(0);
+                default -> System.out.println("Invalid choice");
             }
         }
     }

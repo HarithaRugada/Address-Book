@@ -1,15 +1,21 @@
 package com.addressbook.service;
 
 import com.addressbook.model.Person;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-public class AddressBookManager {
+public class AddressBookService {
     Scanner scanner = new Scanner(System.in);
     public List<Person> personList = new ArrayList<>();
+    JSONArray personArray = new JSONArray();
+    final String JSON_FILE_PATH = "./src/main/resources/PersonDetails.json";
 
     public Person getPersonDetails() {
         System.out.println("enter first name");
@@ -56,6 +62,7 @@ public class AddressBookManager {
         boolean duplicate = this.checkPerson(person.getFirstName(), person.getLastName());
         if (!duplicate) {
             personList.add(person);
+            this.writeToJSONFile(person);
             System.out.println("added person successfully");
         } else {
             System.out.println("details already exists");
@@ -88,6 +95,7 @@ public class AddressBookManager {
         System.out.println("State > " + record.getState());
         System.out.println("Zip > " + record.getZip());
         System.out.println("Phone Number > " + record.getPhoneNumber());
+        //readFromJsonFile();
     }
 
     public void sorting() {
@@ -95,16 +103,16 @@ public class AddressBookManager {
         int option = scanner.nextInt();
         switch (option) {
             case 1:
-                personList.stream().sorted(Comparator.comparing(Person::getFirstName)).forEach(AddressBookManager::printEachRecord);
+                personList.stream().sorted(Comparator.comparing(Person::getFirstName)).forEach(AddressBookService::printEachRecord);
                 break;
             case 2:
-                personList.stream().sorted(Comparator.comparing(Person::getCity)).forEach(AddressBookManager::printEachRecord);
+                personList.stream().sorted(Comparator.comparing(Person::getCity)).forEach(AddressBookService::printEachRecord);
                 break;
             case 3:
-                personList.stream().sorted(Comparator.comparing(Person::getState)).forEach(AddressBookManager::printEachRecord);
+                personList.stream().sorted(Comparator.comparing(Person::getState)).forEach(AddressBookService::printEachRecord);
                 break;
             case 4:
-                personList.stream().sorted(Comparator.comparing(Person::getZip)).forEach(AddressBookManager::printEachRecord);
+                personList.stream().sorted(Comparator.comparing(Person::getZip)).forEach(AddressBookService::printEachRecord);
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -116,11 +124,15 @@ public class AddressBookManager {
         String state = scanner.next();
         System.out.println("Enter city:");
         String city = scanner.next();
-        for (int i = 0; i < personList.size(); i++) {
-            if (personList.get(i).getState().equals(state) && personList.get(i).getCity().equals(city))
-                personList.forEach(AddressBookManager::printEachRecord);
-            else
-                System.out.println("No data found");
+        for (Person person : personList) {
+            if (person.getState().equals(state) && person.getCity().equals(city))
+                System.out.println("\nFirst Name > " + person.getFirstName()
+                        + "\nLast Name > " + person.getLastName()
+                        + "\nAddress > " + person.getAddress()
+                        + "\nCity > " + person.getCity()
+                        + "\nState > " + person.getState()
+                        + "\nZip > " + person.getZip()
+                        + "\nPhone Number > " + person.getPhoneNumber());
         }
     }
 
@@ -131,25 +143,51 @@ public class AddressBookManager {
             case 1:
                 System.out.println("Enter state:");
                 String state = scanner.next();
-                for (int i = 0; i < personList.size(); i++) {
-                    if (personList.get(i).getState().equals(state))
-                        personList.forEach(AddressBookManager::printEachRecord);
-                    else
-                        System.out.println("No data found");
+                for (Person person : personList) {
+                    if (person.getState().equals(state))
+                        System.out.println("\nFirst Name > " + person.getFirstName()
+                                + "\nLast Name > " + person.getLastName()
+                                + "\nAddress > " + person.getAddress()
+                                + "\nCity > " + person.getCity()
+                                + "\nState > " + person.getState()
+                                + "\nZip > " + person.getZip()
+                                + "\nPhone Number > " + person.getPhoneNumber());
                 }
                 break;
             case 2:
                 System.out.println("Enter city:");
                 String city = scanner.next();
-                for (int i = 0; i < personList.size(); i++) {
-                    if (personList.get(i).getCity().equals(city))
-                        personList.forEach(AddressBookManager::printEachRecord);
-                    else
-                        System.out.println("No data found");
+                for (Person person : personList) {
+                    if (person.getCity().equals(city))
+                        System.out.println("\nFirst Name > " + person.getFirstName()
+                                + "\nLast Name > " + person.getLastName()
+                                + "\nAddress > " + person.getAddress()
+                                + "\nCity > " + person.getCity()
+                                + "\nState > " + person.getState()
+                                + "\nZip > " + person.getZip()
+                                + "\nPhone Number > " + person.getPhoneNumber());
                 }
                 break;
             default:
                 System.out.println("Invalid choice");
+        }
+    }
+
+    private void writeToJSONFile(Person person) {
+        JSONObject personDetails = new JSONObject();
+        personDetails.put("First Name", person.getFirstName());
+        personDetails.put("Last Name", person.getLastName());
+        personDetails.put("Address", person.getAddress());
+        personDetails.put("City", person.getCity());
+        personDetails.put("State", person.getState());
+        personDetails.put("Zip", person.getZip());
+        personDetails.put("Phone Number", person.getPhoneNumber());
+        personArray.add(personDetails);
+        try (FileWriter file = new FileWriter(JSON_FILE_PATH)) {
+            file.write(personArray.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

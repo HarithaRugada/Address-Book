@@ -1,6 +1,6 @@
-package com.addressbook.main;
+package com.addressbook.controller;
 
-import com.addressbook.service.AddressBookManager;
+import com.addressbook.service.AddressBookService;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ public class AddressBook {
     public static void main(String[] args) {
         System.out.println("Welcome To Address Book Program");
         Scanner Scanner = new Scanner(System.in);
-        AddressBookManager addressBookManager = new AddressBookManager();
+        AddressBookService addressBookService = new AddressBookService();
         while (true) {
             System.out.println("1) add a person");
             System.out.println("2) edit person");
@@ -22,25 +22,25 @@ public class AddressBook {
             int choice = Scanner.nextInt();
             switch (choice) {
                 case 1:
-                    addressBookManager.addPerson();
+                    addressBookService.addPerson();
                     break;
                 case 2:
-                    addressBookManager.editPerson();
+                    addressBookService.editPerson();
                     break;
                 case 3:
-                    addressBookManager.deletePerson();
+                    addressBookService.deletePerson();
                     break;
                 case 4:
-                    addressBookManager.sorting();
+                    addressBookService.sorting();
                     break;
                 case 5:
-                    addressBookManager.viewByCityAndState();
+                    addressBookService.viewByCityAndState();
                     break;
                 case 6:
-                    addressBookManager.searchByCityOrState();
+                    addressBookService.searchByCityOrState();
                     break;
                 case 7:
-                    addressBookManager.personList.forEach(AddressBookManager::printEachRecord);
+                    addressBookService.personList.forEach(AddressBookService::printEachRecord);
                     break;
                 case 8:
                     System.exit(0);

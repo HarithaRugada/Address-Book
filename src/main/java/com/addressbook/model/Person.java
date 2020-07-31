@@ -7,7 +7,7 @@ public class Person {
     private String city;
     private String state;
     private String zip;
-    private String phoneNo;
+    private String phoneNumber;
 
     public String getFirstName() {
         return this.firstName;
@@ -58,10 +58,10 @@ public class Person {
     }
 
     public String getPhoneNumber() {
-        return phoneNo;
+        return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNo) {
-        this.phoneNo = phoneNo;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

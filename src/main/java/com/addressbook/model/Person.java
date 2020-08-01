@@ -1,13 +1,13 @@
 package com.addressbook.model;
 
 public class Person {
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String city;
-    private String state;
-    private String zip;
-    private String phoneNumber;
+    public String firstName;
+    public String lastName;
+    public String address;
+    public String city;
+    public String state;
+    public String zip;
+    public String phoneNumber;
 
     public String getFirstName() {
         return this.firstName;

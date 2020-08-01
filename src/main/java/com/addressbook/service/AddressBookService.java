@@ -1,11 +1,15 @@
 package com.addressbook.service;
 
 import com.addressbook.model.Person;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import com.addressbook.utility.JSONFileHandler;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,8 +18,9 @@ import java.util.Scanner;
 public class AddressBookService {
     Scanner scanner = new Scanner(System.in);
     public List<Person> personList = new ArrayList<>();
-    JSONArray personArray = new JSONArray();
-    final String JSON_FILE_PATH = "./src/main/resources/PersonDetails.json";
+    JSONFileHandler jsonFileHandler = new JSONFileHandler();
+    final String CSV_FILE_PATH = "./src/main/resources/PersonDetails.csv";
+
 
     public Person getPersonDetails() {
         System.out.println("enter first name");
@@ -62,7 +67,8 @@ public class AddressBookService {
         boolean duplicate = this.checkPerson(person.getFirstName(), person.getLastName());
         if (!duplicate) {
             personList.add(person);
-            this.writeToJSONFile(person);
+            jsonFileHandler.writeToJSONFile(person);
+            this.writeToCSVFile();
             System.out.println("added person successfully");
         } else {
             System.out.println("details already exists");
@@ -95,24 +101,32 @@ public class AddressBookService {
         System.out.println("State > " + record.getState());
         System.out.println("Zip > " + record.getZip());
         System.out.println("Phone Number > " + record.getPhoneNumber());
-        //readFromJsonFile();
     }
 
     public void sorting() {
+        List<Person> addressBook=this.readFromCSV();
         System.out.println("enter type of sort 1)name 2)city 3)state 4)zipcode");
         int option = scanner.nextInt();
         switch (option) {
             case 1:
-                personList.stream().sorted(Comparator.comparing(Person::getFirstName)).forEach(AddressBookService::printEachRecord);
+                addressBook.sort(((Comparator<Person>)
+                        (detail1, detail2) ->detail2.getFirstName().compareTo(detail1.getFirstName())).reversed());
+                addressBook.forEach(AddressBookService::printEachRecord);
                 break;
             case 2:
-                personList.stream().sorted(Comparator.comparing(Person::getCity)).forEach(AddressBookService::printEachRecord);
+                addressBook.sort(((Comparator<Person>)
+                        (detail1, detail2) ->detail2.getCity().compareTo(detail1.getCity())).reversed());
+                addressBook.forEach(AddressBookService::printEachRecord);
                 break;
             case 3:
-                personList.stream().sorted(Comparator.comparing(Person::getState)).forEach(AddressBookService::printEachRecord);
+                addressBook.sort(((Comparator<Person>)
+                        (detail1, detail2) ->detail2.getState().compareTo(detail1.getState())).reversed());
+                addressBook.forEach(AddressBookService::printEachRecord);
                 break;
             case 4:
-                personList.stream().sorted(Comparator.comparing(Person::getZip)).forEach(AddressBookService::printEachRecord);
+                addressBook.sort(((Comparator<Person>)
+                        (detail1, detail2) ->detail2.getZip().compareTo(detail1.getZip())).reversed());
+                addressBook.forEach(AddressBookService::printEachRecord);
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -173,21 +187,42 @@ public class AddressBookService {
         }
     }
 
-    private void writeToJSONFile(Person person) {
-        JSONObject personDetails = new JSONObject();
-        personDetails.put("First Name", person.getFirstName());
-        personDetails.put("Last Name", person.getLastName());
-        personDetails.put("Address", person.getAddress());
-        personDetails.put("City", person.getCity());
-        personDetails.put("State", person.getState());
-        personDetails.put("Zip", person.getZip());
-        personDetails.put("Phone Number", person.getPhoneNumber());
-        personArray.add(personDetails);
-        try (FileWriter file = new FileWriter(JSON_FILE_PATH)) {
-            file.write(personArray.toJSONString());
-            file.flush();
+    public void writeToCSVFile() {
+        try {
+            FileWriter csvWriter = new FileWriter(CSV_FILE_PATH);
+            csvWriter.append("First Name,");
+            csvWriter.append("Last Name,");
+            csvWriter.append("Address,");
+            csvWriter.append("City,");
+            csvWriter.append("State,");
+            csvWriter.append("Zip,");
+            csvWriter.append("Phone Number");
+            for (Person person : personList) {
+                csvWriter.append("\n").append(person.getFirstName());
+                csvWriter.append(",").append(person.getLastName());
+                csvWriter.append(",").append(person.getAddress());
+                csvWriter.append(",").append(person.getCity());
+                csvWriter.append(",").append(person.getState());
+                csvWriter.append(",").append(person.getZip());
+                csvWriter.append(",").append(person.getPhoneNumber());
+            }
+            csvWriter.flush();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    public List<Person> readFromCSV() {
+        List<Person> addressBookList;
+        try (Reader reader = Files.newBufferedReader(Paths.get(CSV_FILE_PATH))) {
+            CsvToBean csvToBean = new CsvToBeanBuilder(reader).withType(Person.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            addressBookList = (ArrayList<Person>) csvToBean.parse();
+            return addressBookList;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

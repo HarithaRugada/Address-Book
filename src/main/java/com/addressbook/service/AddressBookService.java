@@ -1,26 +1,29 @@
 package com.addressbook.service;
 
 import com.addressbook.model.Person;
+import com.addressbook.utility.IFileHandling;
 import com.addressbook.utility.JSONFileHandler;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
+import com.addressbook.utility.JSONUsingGSONFileHandler;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
-public class AddressBookService {
+public class AddressBookService implements IAddressBookService {
     Scanner scanner = new Scanner(System.in);
-    public List<Person> personList = new ArrayList<>();
+    IFileHandling fileHandling;
+    String addressBook;
+    public List<Person> personList;
     JSONFileHandler jsonFileHandler = new JSONFileHandler();
+    JSONUsingGSONFileHandler jsonUsingGSONFileHandler = new JSONUsingGSONFileHandler();
     final String CSV_FILE_PATH = "./src/main/resources/PersonDetails.csv";
 
+    public AddressBookService(IFileHandling fileHandling, String addressBook) {
+        this.addressBook = addressBook;
+        this.fileHandling = fileHandling;
+        this.personList = fileHandling.convertToList(addressBook);
+    }
 
     public Person getPersonDetails() {
         System.out.println("enter first name");
@@ -57,6 +60,7 @@ public class AddressBookService {
         person.setPhoneNumber(scanner.next());
     }
 
+    @Override
     public void addPerson() {
         Person person = new Person();
         System.out.println("enter first name");
@@ -67,14 +71,14 @@ public class AddressBookService {
         boolean duplicate = this.checkPerson(person.getFirstName(), person.getLastName());
         if (!duplicate) {
             personList.add(person);
-            jsonFileHandler.writeToJSONFile(person);
-            this.writeToCSVFile();
+            fileHandling.convertToFile(personList, addressBook);
             System.out.println("added person successfully");
         } else {
             System.out.println("details already exists");
         }
     }
 
+    @Override
     public void editPerson() {
         Person personToEdit = this.getPersonDetails();
         if (personToEdit != null) {
@@ -85,6 +89,7 @@ public class AddressBookService {
         }
     }
 
+    @Override
     public void deletePerson() {
         Person personToDelete = this.getPersonDetails();
         if (personToDelete != null) {
@@ -103,36 +108,38 @@ public class AddressBookService {
         System.out.println("Phone Number > " + record.getPhoneNumber());
     }
 
+    @Override
     public void sorting() {
-        List<Person> addressBook=this.readFromCSV();
+        List<Person> addressBookList = fileHandling.convertToList(addressBook);
         System.out.println("enter type of sort 1)name 2)city 3)state 4)zipcode");
         int option = scanner.nextInt();
         switch (option) {
             case 1:
-                addressBook.sort(((Comparator<Person>)
-                        (detail1, detail2) ->detail2.getFirstName().compareTo(detail1.getFirstName())).reversed());
-                addressBook.forEach(AddressBookService::printEachRecord);
+                addressBookList.sort(((Comparator<Person>)
+                        (detail1, detail2) -> detail2.getFirstName().compareTo(detail1.getFirstName())).reversed());
+                addressBookList.forEach(AddressBookService::printEachRecord);
                 break;
             case 2:
-                addressBook.sort(((Comparator<Person>)
-                        (detail1, detail2) ->detail2.getCity().compareTo(detail1.getCity())).reversed());
-                addressBook.forEach(AddressBookService::printEachRecord);
+                addressBookList.sort(((Comparator<Person>)
+                        (detail1, detail2) -> detail2.getCity().compareTo(detail1.getCity())).reversed());
+                addressBookList.forEach(AddressBookService::printEachRecord);
                 break;
             case 3:
-                addressBook.sort(((Comparator<Person>)
-                        (detail1, detail2) ->detail2.getState().compareTo(detail1.getState())).reversed());
-                addressBook.forEach(AddressBookService::printEachRecord);
+                addressBookList.sort(((Comparator<Person>)
+                        (detail1, detail2) -> detail2.getState().compareTo(detail1.getState())).reversed());
+                addressBookList.forEach(AddressBookService::printEachRecord);
                 break;
             case 4:
-                addressBook.sort(((Comparator<Person>)
-                        (detail1, detail2) ->detail2.getZip().compareTo(detail1.getZip())).reversed());
-                addressBook.forEach(AddressBookService::printEachRecord);
+                addressBookList.sort(((Comparator<Person>)
+                        (detail1, detail2) -> detail2.getZip().compareTo(detail1.getZip())).reversed());
+                addressBookList.forEach(AddressBookService::printEachRecord);
                 break;
             default:
                 System.out.println("Invalid choice");
         }
     }
 
+    @Override
     public void viewByCityAndState() {
         System.out.println("Enter state:");
         String state = scanner.next();
@@ -150,6 +157,7 @@ public class AddressBookService {
         }
     }
 
+    @Override
     public void searchByCityOrState() {
         System.out.println("enter type of search 1)state 2)city");
         int option = scanner.nextInt();
@@ -185,44 +193,5 @@ public class AddressBookService {
             default:
                 System.out.println("Invalid choice");
         }
-    }
-
-    public void writeToCSVFile() {
-        try {
-            FileWriter csvWriter = new FileWriter(CSV_FILE_PATH);
-            csvWriter.append("First Name,");
-            csvWriter.append("Last Name,");
-            csvWriter.append("Address,");
-            csvWriter.append("City,");
-            csvWriter.append("State,");
-            csvWriter.append("Zip,");
-            csvWriter.append("Phone Number");
-            for (Person person : personList) {
-                csvWriter.append("\n").append(person.getFirstName());
-                csvWriter.append(",").append(person.getLastName());
-                csvWriter.append(",").append(person.getAddress());
-                csvWriter.append(",").append(person.getCity());
-                csvWriter.append(",").append(person.getState());
-                csvWriter.append(",").append(person.getZip());
-                csvWriter.append(",").append(person.getPhoneNumber());
-            }
-            csvWriter.flush();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
-
-    public List<Person> readFromCSV() {
-        List<Person> addressBookList;
-        try (Reader reader = Files.newBufferedReader(Paths.get(CSV_FILE_PATH))) {
-            CsvToBean csvToBean = new CsvToBeanBuilder(reader).withType(Person.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .build();
-            addressBookList = (ArrayList<Person>) csvToBean.parse();
-            return addressBookList;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

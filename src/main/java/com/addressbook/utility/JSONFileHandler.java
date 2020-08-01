@@ -12,22 +12,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JSONFileHandler {
-    public void writeToJSONFile(Person person) {
-        final String JSON_FILE_PATH = "./src/main/resources/PersonDetails.json";
+public class JSONFileHandler implements IFileHandling {
+    @Override
+    public void convertToFile(List<Person> addressBook, String filePath) {
         JSONArray personArray = new JSONArray();
-        JSONObject personDetails = new JSONObject();
-        personDetails.put("First Name", person.getFirstName());
-        personDetails.put("Last Name", person.getLastName());
-        personDetails.put("Address", person.getAddress());
-        personDetails.put("City", person.getCity());
-        personDetails.put("State", person.getState());
-        personDetails.put("Zip", person.getZip());
-        personDetails.put("Phone Number", person.getPhoneNumber());
-        personArray.add(personDetails);
-        try (FileWriter file = new FileWriter(JSON_FILE_PATH)) {
-            file.write(personArray.toJSONString());
-            file.flush();
+        for (Person person : addressBook) {
+            JSONObject personDetails = new JSONObject();
+            personDetails.put("First Name", person.getFirstName());
+            personDetails.put("Last Name", person.getLastName());
+            personDetails.put("Address", person.getAddress());
+            personDetails.put("City", person.getCity());
+            personDetails.put("State", person.getState());
+            personDetails.put("Zip", person.getZip());
+            personDetails.put("Phone Number", person.getPhoneNumber());
+            personArray.add(personDetails);
+        }
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            fileWriter.write(personArray.toJSONString());
+            fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,11 +48,12 @@ public class JSONFileHandler {
         return person;
     }
 
-    public List<Person> readFromJsonFile(String jsonFilePath) {
+    @Override
+    public List<Person> convertToList(String filePath) {
         JSONParser jsonParser = new JSONParser();
         List<Person> addressBook = new ArrayList<>();
         try {
-            FileReader fileReader = new FileReader(jsonFilePath);
+            FileReader fileReader = new FileReader(filePath);
             Object obj = jsonParser.parse(fileReader);
             JSONArray personList = (JSONArray) obj;
             personList.forEach(person -> addressBook.add(parsePersonObject((JSONObject) person)));
